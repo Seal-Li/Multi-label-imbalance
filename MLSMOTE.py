@@ -31,8 +31,7 @@ def TailLabel(Y):
     n, m = Y.shape
     irlbl = IRLbl(Y)
     mean_ir = MeanIR(Y)
-    label_index = np.where(irlbl>=mean_ir)[0]
-    return label_index
+    return np.where(irlbl>=mean_ir)[0]
 
 
 def MinBag(X, Y, label_index):

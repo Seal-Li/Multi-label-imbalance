@@ -14,10 +14,7 @@ import numpy as np
 
 def label_detache(X, Y):
     n, m = Y.shape
-    labelSetBag = dict()
-    for k in range(m):
-        labelSetBag[k] = np.where(Y[:,k]==1)[0]
-    return labelSetBag
+    return {k: np.where(Y[:,k]==1)[0] for k in range(m)}
 
 
 def majority_label(labelSetBag, meanSize):
@@ -31,17 +28,12 @@ def majority_label(labelSetBag, meanSize):
 
 
 def get_meanRed(labelSetBag, majInd, sampleToDelete):
-    # Red is the abbreviation of Reduction
-    k = len(majInd)
-    num = []
     meanRed = 0
-    for i in range(k):
-        num.append(len(labelSetBag[majInd[i]]))
+    k = len(majInd)
+    num = [len(labelSetBag[majInd[i]]) for i in range(k)]
     meanRed = sampleToDelete / len(num)
     ind = np.argsort(num)
-    sortInd = []
-    for j in range(k):
-        sortInd.append(majInd[ind[j]])
+    sortInd = [majInd[ind[j]] for j in range(k)]
     return meanRed, sortInd
 
 
@@ -60,13 +52,12 @@ def delete_ind(n, labelSetBag, meanSize, sampleToDelete):
         # distributeAmongBagsj>i(remainder)
         # rBagInd = list(np.arange(nMajBagi))
         rBagInd = list(labelSetBag[sortInd[i]])
-        for j in range(int(rBag[i])):
+        for _ in range(int(rBag[i])):
             x = np.random.randint(0, nMajBagi)
             while x in deleteSet:
                 x = np.random.randint(0, nMajBagi)
             deleteSet.add(rBagInd[x])
-    remainderInd = list(allInd.difference(deleteSet))
-    return remainderInd
+    return list(allInd.difference(deleteSet))
 
 
 def LPRUS(X, Y, ratio=0.2):

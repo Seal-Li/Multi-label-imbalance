@@ -15,36 +15,27 @@ import numpy as np
 
 def label_detache(Y):
     n, m = Y.shape
-    labelSetBag = dict()
-    for k in range(m):
-        labelSetBag[k] = np.where(Y[:,k]==1)[0]
-    return labelSetBag
+    return {k: np.where(Y[:,k]==1)[0] for k in range(m)}
 
 
 def caculate_IRLbl(Y):
     # imbalance ratio per label
     posNumsPerLabel = np.sum(Y, axis=0)
     maxPosNums = np.max(posNumsPerLabel)
-    IRLbl = maxPosNums / posNumsPerLabel
-    return IRLbl
+    return maxPosNums / posNumsPerLabel
 
 
 def caculate_meanIR(Y):
     # average imbalance ratio
     IRLbl = caculate_IRLbl(Y)
-    meanIR = np.mean(IRLbl)
-    return meanIR
+    return np.mean(IRLbl)
 
 
 def get_minBag(Y):
     n, m = Y.shape
     IRLbl = caculate_IRLbl(Y)
     meanIR = caculate_meanIR(Y)
-    minBag = []
-    for i in range(m):
-        if IRLbl[i] > meanIR:
-            minBag.append(i)
-    return minBag
+    return [i for i in range(m) if IRLbl[i] > meanIR]
 
 
 def get_minMajInstInd(Y, minBag):

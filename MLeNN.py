@@ -18,26 +18,20 @@ def caculate_IRLbl(Y):
     # imbalance ratio per label
     posNumsPerLabel = np.sum(Y, axis=0)
     maxPosNums = np.max(posNumsPerLabel)
-    IRLbl = maxPosNums / posNumsPerLabel
-    return IRLbl
+    return maxPosNums / posNumsPerLabel
 
 
 def caculate_meanIR(Y):
     # average imbalance ratio
     IRLbl = caculate_IRLbl(Y)
-    meanIR = np.mean(IRLbl)
-    return meanIR
+    return np.mean(IRLbl)
 
 
 def get_minBag(Y):
     n, m = Y.shape
     IRLbl = caculate_IRLbl(Y)
     meanIR = caculate_meanIR(Y)
-    minBag = []
-    for i in range(m):
-        if IRLbl[i] > meanIR:
-            minBag.append(i)
-    return minBag
+    return [i for i in range(m) if IRLbl[i] > meanIR]
 
 
 def get_minMajInstInd(Y, minBag):
@@ -55,8 +49,7 @@ def get_minMajInstInd(Y, minBag):
 def adjust_hamming_distance(y1, y2):
     flag1 = np.sum(y1)
     flag2 = np.sum(y2)
-    flag = (flag1 and flag2)
-    if flag:
+    if flag := (flag1 and flag2):
         ele = np.sum((y1 + y2)==1)
         den = flag1 + flag2
         return ele / den

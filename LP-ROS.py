@@ -14,10 +14,7 @@ import numpy as np
 
 def label_detache(X, Y):
     n, m = Y.shape
-    labelSetBag = dict()
-    for k in range(m):
-        labelSetBag[k] = np.where(Y[:,k]==1)[0]
-    return labelSetBag
+    return {k: np.where(Y[:,k]==1)[0] for k in range(m)}
 
 
 def minority_label(labelSetBag, meanSize):
@@ -30,17 +27,12 @@ def minority_label(labelSetBag, meanSize):
     return minInd
 
 def get_meanInc(labelSetBag, minInd, samplesGenerate):
-    # Inc is the abbreviation of Increment
-    k = len(minInd)
-    num = []
     meanInc = 0
-    for i in range(k):
-        num.append(len(labelSetBag[minInd[i]]))
+    k = len(minInd)
+    num = [len(labelSetBag[minInd[i]]) for i in range(k)]
     meanInc = samplesGenerate / len(num)
     ind = np.argsort(num)
-    sortInd = []
-    for j in range(k):
-        sortInd.append(minInd[ind[k-j-1]])
+    sortInd = [minInd[ind[k-j-1]] for j in range(k)]
     return meanInc, sortInd
 
 def generate_ind(n, labelSetBag, meanSize, samplesGenerate):
@@ -57,7 +49,7 @@ def generate_ind(n, labelSetBag, meanSize, samplesGenerate):
         # distributeAmongBagsj>i(remainder)
         rBagInd = list(labelSetBag[sortInd[i]])
         print(rBag[i])
-        for j in range(int(rBag[i])):
+        for _ in range(int(rBag[i])):
             x = np.random.randint(0, nMinBagi)
             generateInd.append(rBagInd[x])
     return generateInd

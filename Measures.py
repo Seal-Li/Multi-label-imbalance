@@ -86,14 +86,14 @@ class SingleLabelMetrics:
         negNum = np.sum(self.truth==False)
         posNum = np.sum(self.truth==True)
         threshold = np.sort(probability)[::-1]
-        
+
         for th in threshold:
             predLabel = (probability>=th)
-            fpr = np.sum(self.truth[predLabel==True]==False) / negNum
-            tpr = np.sum(self.truth[predLabel==True]==True) / posNum
+            fpr = np.sum(self.truth[predLabel] == False) / negNum
+            tpr = np.sum(self.truth[predLabel] == True) / posNum
             FPR.append(fpr)
             TPR.append(tpr)
-        
+
         plt.figure(dpi=900)
         plt.plot(FPR, TPR, "b-", linewidth=1)
         plt.xlabel("FPR")
@@ -159,9 +159,8 @@ class MultiLabelMetrics:
         Warning:this metrics is not available when belongs to none of labels!!! 
         """
         for i in range(self.n):
-            flag = (self.truth[i,:]==self.pred[i,:]).all()
-            if flag:
-                self.PreciseMatching = self.PreciseMatching + 1 / self.n            
+            if flag := (self.truth[i, :] == self.pred[i, :]).all():
+                self.PreciseMatching = self.PreciseMatching + 1 / self.n
         return self.PreciseMatching
     
     def macro_F1(self):
@@ -224,7 +223,7 @@ class RankingMetrics:
         
     def ranking_loss(self):
         for i in range(self.n):
-            if (np.sum(self.truth[i,:])==self.m) or (np.sum(self.truth[i,:])==0):
+            if np.sum(self.truth[i, :]) in [self.m, 0]:
                 self.n = self.n - 1
                 continue
             label_0 = (self.truth[i,:]==0)
@@ -262,7 +261,7 @@ class RankingMetrics:
     def average_precision(self):
         precision = 0
         for i in range(self.n):
-            if (np.sum(self.truth[i,:])==self.m) or (np.sum(self.truth[i,:])==0):
+            if np.sum(self.truth[i, :]) in [self.m, 0]:
                 self.n = self.n - 1
                 continue
             index = np.where(self.truth[i]==1)[0]
