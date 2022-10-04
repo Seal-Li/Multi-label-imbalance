@@ -68,14 +68,3 @@ def LPROS(X, Y, ratio=0.10):
     X_new, Y_new = np.r_[X, X_gen], np.r_[Y, Y_gen]
     
     return X_new, Y_new
-
-
-if __name__ == '__main__':
-    p = 103
-    path = r'C:\Users\dell\Desktop\datasets\Yeast\Yeast.csv'
-    data = np.genfromtxt(path, delimiter=",", skip_header=1)
-    X, Y = data[:,:p], data[:,p:]
-    X_new, Y_new = LPROS(X, Y, ratio=0.10)
-
-
-

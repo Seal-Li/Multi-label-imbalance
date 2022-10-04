@@ -70,10 +70,3 @@ def MLRUS(Y, ratio):
     X_new = np.delete(X, deleteList, axis=0)
     Y_new = np.delete(Y, deleteList, axis=0)
     return X_new, Y_new
-
-if __name__ == '__main__':
-    p = 103
-    path = r'C:\Users\dell\Desktop\datasets\Yeast\Yeast.csv'
-    data = np.genfromtxt(path, delimiter=",", skip_header=1)
-    X, Y = data[:,:p], data[:,p:]
-    X_new, Y_new = MLRUS(Y, ratio=0.2)

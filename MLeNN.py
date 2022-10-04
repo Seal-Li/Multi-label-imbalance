@@ -88,14 +88,3 @@ def MLeNN(X, Y, NN=3, HT=0.75):
     X_new = np.delete(X, markForRemoving, axis=0)
     Y_new = np.delete(Y, markForRemoving, axis=0)
     return X_new, Y_new
-
-if __name__ == '__main__':
-    np.random.seed(666)
-    HT = 0.75
-    NN = 3
-    p = 103
-    path = r'C:\Users\dell\Desktop\datasets\Yeast\Yeast.csv'
-    data = np.genfromtxt(path, delimiter=",", skip_header=1)
-    X, Y = data[:,:p], data[:,p:]
-    X_new, Y_new = MLeNN(X, Y, NN=3, HT=0.75)
-    

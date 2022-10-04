@@ -124,15 +124,3 @@ def MLTL(X, Y, method="under-sampling"):
     X_new, Y_new = X[PreservedInd,:], Y[PreservedInd,:]
     print("Done!\n")
     return X_new, Y_new
-
-
-if __name__ == '__main__':
-    np.random.seed(666)
-    # p = 293
-    p = 103
-    path = r'C:\Users\dell\Desktop\datasets\Yeast\Yeast.csv'
-    data = np.genfromtxt(path, delimiter=",", skip_header=1)
-    X, Y = data[:,:p], data[:,p:]
-    
-    X_new1, Y_new1 = MLTL(X, Y, method="cleaning")
-    X_new2, Y_new2 = MLTL(X, Y, method="under-sampling")

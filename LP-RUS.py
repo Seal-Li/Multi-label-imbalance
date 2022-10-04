@@ -72,11 +72,3 @@ def LPRUS(X, Y, ratio=0.2):
     remainderInd = delete_ind(n, labelSetBag, meanSize, sampleToDelete)
     X_new, Y_new = X[remainderInd,:], Y[remainderInd,:]
     return X_new, Y_new
-
-
-if __name__ == '__main__':
-    p = 103
-    path = r'C:\Users\dell\Desktop\datasets\Yeast\Yeast.csv'
-    data = np.genfromtxt(path, delimiter=",", skip_header=1)
-    X, Y = data[:,:p], data[:,p:]
-    X_new, Y_new = LPRUS(X, Y, ratio=0.2)

@@ -75,14 +75,3 @@ def MLSMOTE(X_minor, Y_minor, k=5):
     X_new = np.r_[X_minor, X_synth]
     Y_new = np.r_[Y_minor, Y_synth]
     return X_new, Y_new
-
-
-if __name__ == '__main__':
-    
-    p = 2
-    file_path = r"C:\Users\dell\Desktop\ML-resalmpling\code\artificial.csv"
-    data = np.genfromtxt(file_path, delimiter=",")
-    X, Y = data[:,:p], data[:,p:]
-    label_index = TailLabel(Y)
-    X_minor, Y_minor = MinBag(X, Y, label_index)
-    X_new, Y_new = MLSMOTE(X_minor, Y_minor, k=5)
